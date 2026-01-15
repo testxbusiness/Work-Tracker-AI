@@ -61,7 +61,7 @@ export default function Outbox() {
                             {email.error && <p className={styles.error}>{email.error}</p>}
                         </div>
                         <div className={styles.actions}>
-                            <Badge type={email.status}>{email.status}</Badge>
+                            <Badge variant={email.status}>{email.status}</Badge>
                             {email.status !== "sent" && (
                                 <button
                                     className={styles.retryButton}

@@ -49,8 +49,8 @@ export default function MattersPage() {
                                 <Briefcase size={20} />
                             </div>
                             <div className={styles.badges}>
-                                <Badge type={matter.priority}>{matter.priority}</Badge>
-                                <Badge type={matter.status}>{matter.status}</Badge>
+                                <Badge variant={matter.priority}>{matter.priority}</Badge>
+                                <Badge variant={matter.status}>{matter.status}</Badge>
                             </div>
                         </div>
                         <div className={styles.cardContent}>
