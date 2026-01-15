@@ -1,0 +1,353 @@
+.timeline {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventItem {
+    display: flex;
+    gap: 20px;
+}
+
+.iconWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.line {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.type {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.content:hover .actions {
+    opacity: 1;
+}
+
+.actionBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-muted);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.actionBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary);
+}
+
+.actionBtn.delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.editArea {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.editTextarea {
+    width: 100%;
+    min-height: 100px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--text-main);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.editActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancelBtn,
+.saveBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.cancelBtn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.saveBtn {
+    background: var(--primary);
+    border: none;
+    color: white;
+}
+
+.saveBtn:hover {
+    background: var(--primary-hover);
+}
+
+.text {
+    font-size: 1rem;
+    white-space: pre-wrap;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.attachmentLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.attachmentLink:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.attachmentLink.disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.aiResult {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--primary);
+}
+
+.aiCard {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(59, 130, 246, 0.03);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.aiHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.aiSection h4 {
+    font-size: 0.8125rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.aiSection p {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.actionList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.actionList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.9375rem;
+    color: var(--text-main);
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.actionList li:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.actionItemContent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+}
+
+.inlineActionBtn {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: var(--primary);
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    opacity: 0;
+}
+
+.actionList li:hover .inlineActionBtn {
+    opacity: 1;
+}
+
+.inlineActionBtn:hover:not(:disabled) {
+    background: var(--primary);
+    color: white;
+}
+
+.inlineActionBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.actionList svg {
+    color: var(--success);
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.emailDraft {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.queueButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--success);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.queueButton:hover {
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.queueButton.sent {
+    background: rgba(16, 185, 129, 0.05);
+    color: var(--text-muted);
+    cursor: default;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.draftSubject {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 12px 0 8px;
+}
+
+.draftBody {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+}
+
+.spin {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

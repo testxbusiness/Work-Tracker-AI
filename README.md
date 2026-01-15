@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Work Tracker AI
+### *L’Intelligenza Artificiale che mette ordine nel tuo lavoro quotidiano.*
 
-## Getting Started
+**Work Tracker AI** è un assistente intelligente progettato per professionisti che hanno bisogno di trasformare note disordinate, telefonate e verbali in azioni concrete. Grazie all'integrazione di modelli linguistici avanzati (GPT-4o) e tecnologie di trascrizione (Whisper), l'app analizza ogni tuo input per creare valore immediato.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Funzionalità Straordinarie
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🗓️ Timeline Intelligente
+Visualizza la tua giornata lavorativa in un flusso cronologico elegante. Ogni evento (nota, chiamata o riunione) viene catalogato e arricchito dall'AI.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🧠 Artefatti AI Automatici
+Per ogni contenuto inserito, l'AI genera automaticamente:
+- **Sommario**: Un riassunto esecutivo rapido.
+- **Minutes**: Un verbale dettagliato della discussione.
+- **Action Items**: Una checklist di punti d'azione chiari e pronti all'uso.
+- **Bozza Email**: Una bozza professionale di follow-up pronta da inviare.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🎙️ Supporto Multimediale Totale
+- **Audio**: Registra note vocali direttamente dall'app o carica file audio per ottenere trascrizioni perfette.
+- **Immagini (OCR)**: Carica foto di documenti, lavagne o appunti scritti a mano; l'AI estrarrà il testo e lo sintetizzerà per te.
 
-## Learn More
+### ✉️ Integrazione Gmail Diretta
+Connetti il tuo account Google per inviare le bozze di follow-up generate dall'AI con un solo click, senza mai lasciare la dashboard.
 
-To learn more about Next.js, take a look at the following resources:
+### 📱 PWA & Mobile Ready
+Installabile su iOS e Android come un'app nativa. Ottimizzata per l'inserimento rapido anche in mobilità.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+- **Frontend**: [Next.js 14](https://nextjs.org/) (App Router, CSS Modules)
+- **Backend & Database**: [Convex](https://www.convex.dev/) (Real-time database and serverless functions)
+- **Authentication**: [Clerk](https://clerk.com/)
+- **AI Models**: 
+  - **OpenAI GPT-4o**: Analisi, OCR e generazione artefatti.
+  - **OpenAI Whisper**: Trascrizione audio ad alta fedeltà.
+- **Integrations**: Google OAuth 2.0 & Gmail API.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚡ Quick Start
+
+1. **Clona il repo**:
+   ```bash
+   git clone https://github.com/tuo-username/work-tracker-ai.git
+   ```
+2. **Installa le dipendenze**:
+   ```bash
+   npm install
+   ```
+3. **Configura le variabili d'ambiente**:
+   Crea un file `.env.local` con le chiavi per Clerk, Convex e OpenAI.
+4. **Avvia lo sviluppo**:
+   ```bash
+   npx convex dev # Avvia il backend
+   npm run dev    # Avvia il frontend
+   ```
+
+---
+
+## 📐 Architettura
+L'applicazione segue un'architettura **Serverless-First**:
+- Il database Convex mantiene la sincronizzazione in tempo reale tra tutti i dispositivi.
+- Le Clerk middleware proteggono le rotte sensibili.
+- Il design è atomico, fluido e orientato alla "Aesthetics First" per un'esperienza premium.
