@@ -71,14 +71,14 @@ export function EventCreator({ matterId }: { matterId: Id<"matters"> }) {
                     className={type === "note" ? styles.active : ""}
                     onClick={() => setType("note")}
                 >
-                    <FileText size={18} /> Note
+                    <FileText size={18} /> Internal Note
                 </button>
                 <button
                     type="button"
                     className={type === "call" ? styles.active : ""}
                     onClick={() => setType("call")}
                 >
-                    <Phone size={18} /> Call
+                    <Phone size={18} /> Client Call
                 </button>
                 <button
                     type="button"
@@ -88,18 +88,23 @@ export function EventCreator({ matterId }: { matterId: Id<"matters"> }) {
                     <Users size={18} /> Meeting
                 </button>
             </div>
+
             <div className={styles.inputWrapper}>
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder={`Add a ${type}...`}
-                    rows={1}
+                    placeholder={`Case intelligence: record details of this ${type}...`}
                 />
-                <div className={styles.actions}>
-                    <FileUploader matterId={matterId} onUploadComplete={addAttachment} />
-                    <AudioRecorder onUploadComplete={addAttachment} />
+
+                <div className={styles.actionsBar}>
+                    <div className={styles.actionsGroup}>
+                        <FileUploader matterId={matterId} onUploadComplete={addAttachment} />
+                        <AudioRecorder onUploadComplete={addAttachment} />
+                    </div>
+
                     <button type="submit" className={styles.sendButton} disabled={!content.trim() && attachments.length === 0}>
                         <Send size={18} />
+                        <span>Log Entry</span>
                     </button>
                 </div>
             </div>
@@ -109,7 +114,7 @@ export function EventCreator({ matterId }: { matterId: Id<"matters"> }) {
                     {attachments.map((a, i) => (
                         <div key={i} className={styles.attachmentBadge}>
                             <span>{a.fileName}</span>
-                            <button type="button" onClick={() => removeAttachment(i)}><X size={14} /></button>
+                            <button type="button" className={styles.removeBtn} onClick={() => removeAttachment(i)}><X size={14} /></button>
                         </div>
                     ))}
                 </div>

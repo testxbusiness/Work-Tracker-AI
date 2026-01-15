@@ -1,353 +1,374 @@
 .timeline {
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-left: 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 21px;
+    /* Center of the 44px icon (22px) - 1px half-width */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180, var(--border), rgba(255, 255, 255, 0.05), var(--border));
+    z-index: 0;
 }
 
 .eventItem {
     display: flex;
-    gap: 20px;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 48px;
 }
 
 .iconWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
     flex-shrink: 0;
 }
 
-.line {
-    width: 2px;
-    flex: 1;
-    background: var(--border);
-    margin: 4px 0;
-}
-
-.content {
-    flex: 1;
-    padding: 20px;
-    border-radius: var(--radius-lg);
-    margin-bottom: 32px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.type {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--primary);
-    letter-spacing: 0.05em;
-}
-
-.time {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-.actions {
-    display: flex;
-    gap: 8px;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.content:hover .actions {
-    opacity: 1;
-}
-
-.actionBtn {
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
-    color: var(--text-muted);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+.icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.actionBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
     color: var(--primary);
-}
-
-.actionBtn.delete:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-}
-
-.editArea {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 8px;
-}
-
-.editTextarea {
-    width: 100%;
-    min-height: 100px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    color: var(--text-main);
-    font-size: 0.9375rem;
-    font-family: inherit;
-    resize: vertical;
-}
-
-.editActions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-}
-
-.cancelBtn,
-.saveBtn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
+    box-shadow: var(--shadow-md);
     transition: var(--transition);
 }
 
-.cancelBtn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
+.eventItem:hover .icon {
+    border-color: var(--primary);
+    transform: scale(1.05);
 }
 
-.saveBtn {
-    background: var(--primary);
-    border: none;
-    color: white;
-}
-
-.saveBtn:hover {
-    background: var(--primary-hover);
-}
-
-.text {
-    font-size: 1rem;
-    white-space: pre-wrap;
-    color: var(--text-main);
-    line-height: 1.6;
-}
-
-.attachments {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-}
-
-.attachmentLink {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-sm);
-    font-size: 0.8125rem;
-    text-decoration: none;
-    color: var(--text-main);
-    transition: var(--transition);
-}
-
-.attachmentLink:hover:not(.disabled) {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.attachmentLink.disabled {
-    opacity: 0.5;
-    cursor: default;
-}
-
-.aiResult {
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.875rem;
-    color: var(--primary);
-}
-
-.aiCard {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(59, 130, 246, 0.03);
-    border: 1px solid rgba(59, 130, 246, 0.15);
-    border-radius: var(--radius-lg);
+.card {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.aiHeader {
+.eventCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: var(--transition);
+}
+
+.eventCard:hover {
+    border-color: var(--border-bright);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.headerRight {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 700;
+    gap: 12px;
+}
+
+.aiBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.aiProcessed {
+    background: rgba(79, 70, 229, 0.1);
     color: var(--primary);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.aiAnalyzing {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.time {
     font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    font-weight: 500;
 }
 
-.aiSection h4 {
-    font-size: 0.8125rem;
-    color: var(--primary);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-}
-
-.aiSection p {
+.description {
     font-size: 0.9375rem;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.attachmentItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.attachmentItem:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-bright);
+}
+
+.fileIcon {
+    color: var(--error);
+}
+
+.viewPreview {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Intelligence Section (AI Results) */
+.intelSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 12px;
+}
+
+.intelCard {
+    background: rgba(79, 70, 229, 0.03);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.intelHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.intelContent h4 {
+    font-size: 0.8125rem;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.intelContent p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
 }
 
 .actionList {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.actionList li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     gap: 12px;
-    font-size: 0.9375rem;
-    color: var(--text-main);
-    padding: 6px 8px;
-    border-radius: var(--radius-sm);
-    transition: var(--transition);
 }
 
-.actionList li:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.actionItemContent {
+.actionItem {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-muted);
 }
 
-.inlineActionBtn {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    color: var(--primary);
-    width: 24px;
-    height: 24px;
+.checkbox {
+    width: 18px;
+    height: 18px;
     border-radius: 4px;
+    border: 1px solid var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.emailDraft {
+    grid-column: span 2;
+    background: rgba(14, 16, 22, 0.6);
+    border: 1.5px solid rgba(79, 70, 229, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+}
+
+.emailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.emailTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.optimizedBadge {
+    font-size: 0.6rem;
+    color: var(--primary);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.draftBox {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.draftSubject {
+    color: var(--text-main);
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.emailActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.emailBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    font-weight: 700;
     transition: var(--transition);
-    opacity: 0;
 }
 
-.actionList li:hover .inlineActionBtn {
-    opacity: 1;
-}
-
-.inlineActionBtn:hover:not(:disabled) {
+.sendBtn {
     background: var(--primary);
     color: white;
 }
 
-.inlineActionBtn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.sendBtn:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
-.actionList svg {
-    color: var(--success);
-    margin-top: 3px;
-    flex-shrink: 0;
-}
-
-.emailDraft {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    border-radius: var(--radius-md);
+.secondaryBtn {
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
+    color: var(--text-muted);
 }
 
-.queueButton {
+.secondaryBtn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-main);
+}
+
+.actions {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.eventCard:hover .actions {
+    opacity: 1;
+}
+
+.iconBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--success);
-    padding: 4px 8px;
-    border-radius: var(--radius-sm);
-    background: rgba(16, 185, 129, 0.1);
+    justify-content: center;
+    color: var(--text-dim);
+    transition: var(--transition);
 }
 
-.queueButton:hover {
-    background: rgba(16, 185, 129, 0.2);
+.iconBtn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
 }
 
-.queueButton.sent {
-    background: rgba(16, 185, 129, 0.05);
-    color: var(--text-muted);
-    cursor: default;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+.deleteBtn:hover {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
 }
 
-.draftSubject {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin: 12px 0 8px;
-}
-
-.draftBody {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    white-space: pre-wrap;
-}
-
-.spin {
-    animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
+@media (max-width: 900px) {
+    .intelSection {
+        grid-template-columns: 1fr;
     }
 
-    to {
-        transform: rotate(360deg);
+    .emailDraft {
+        grid-column: span 1;
     }
 }

@@ -1,11 +1,8 @@
-"use client";
-
 import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "convex/_generated/api";
 import styles from "./Timeline.module.css";
-import { MessageSquare, Phone, Users, FileText, Mail, Send, Paperclip, Sparkles, CheckSquare, ChevronRight, Loader2, Edit2, Trash2, X, Save } from "lucide-react";
+import { MessageSquare, Phone, Users, FileText, Mail, Send, Paperclip, Sparkles, CheckSquare, ChevronRight, Loader2, Edit2, Trash2, X, Save, Search, RefreshCcw, FileIcon, User } from "lucide-react";
 import { useState } from "react";
-
 import { Id } from "convex/_generated/dataModel";
 
 interface AIResults {
@@ -70,7 +67,14 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
         }
     };
 
-    if (events === undefined || attachments === undefined) return <div>Loading timeline...</div>;
+    if (events === undefined || attachments === undefined) {
+        return (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 20 }}>
+                <RefreshCcw className="spin" size={16} />
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-dim)' }}>Syncing events...</span>
+            </div>
+        );
+    }
 
     const handleQueueEmail = async (draft: { subject: string; body: string; to?: string }, eventId: string) => {
         setIsSending(eventId);
@@ -83,7 +87,6 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
                 to: recipient,
             });
 
-            // Trigger actual sending logic
             await sendEmail({
                 outboxId,
                 to: recipient,
@@ -92,11 +95,10 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
             });
 
             await markEmailSent({ id: eventId as Id<"events"> });
-
             alert("Email sent successfully!");
         } catch (err) {
             console.error("Failed to send email:", err);
-            alert("Failed to send email. Check Outbox for details.");
+            alert("Failed to send email.");
         } finally {
             setIsSending(null);
         }
@@ -108,168 +110,166 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
             setEditingId(null);
         } catch (err) {
             console.error("Failed to update event:", err);
-            alert("Failed to update event.");
         }
     };
 
     const handleDelete = async (id: Id<"events">) => {
-        if (!confirm("Are you sure you want to delete this event? This will also disconnect its attachments.")) return;
+        if (!confirm("Delete this event from dossier?")) return;
         try {
             await deleteEvent({ id });
         } catch (err) {
             console.error("Failed to delete event:", err);
-            alert("Failed to delete event.");
         }
     };
 
     const getIcon = (type: string) => {
         switch (type) {
-            case "note": return <FileText size={18} />;
-            case "call": return <Phone size={18} />;
-            case "meeting": return <Users size={18} />;
-            case "email": return <Mail size={18} />;
-            case "doc_sent": return <Send size={18} />;
-            case "audio_note": return <Phone size={18} />;
-            default: return <MessageSquare size={18} />;
+            case "note": return <FileText size={20} />;
+            case "call": return <Phone size={20} />;
+            case "meeting": return <Users size={20} />;
+            case "email": return <Mail size={20} />;
+            case "doc_sent": return <Send size={20} />;
+            case "audio_note": return <Phone size={20} />;
+            default: return <MessageSquare size={20} />;
         }
+    };
+
+    const formatType = (type: string) => {
+        return type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     };
 
     return (
         <div className={styles.timeline}>
-            {events.map((event, index) => {
+            {events.map((event) => {
                 const eventAttachments = attachments.filter(a => a.eventId === event._id);
                 const results = event.aiResults;
+                const isAIProcessing = event.aiStatus === "processing" || event.aiStatus === "queued";
 
                 return (
                     <div key={event._id} className={styles.eventItem}>
                         <div className={styles.iconWrapper}>
-                            <div className={`${styles.icon} glass`}>
+                            <div className={styles.icon}>
                                 {getIcon(event.type)}
                             </div>
-                            {index !== events.length - 1 && <div className={styles.line} />}
                         </div>
-                        <div className={`${styles.content} glass`}>
-                            <div className={styles.header}>
-                                <span className={styles.type}>{event.type.replace('_', ' ')}</span>
-                                <span className={styles.time}>
-                                    {new Date(event.timestamp).toLocaleString()}
-                                </span>
-                                <div className={styles.actions}>
-                                    <button
-                                        onClick={() => {
-                                            setEditingId(event._id);
-                                            setEditContent(event.content);
-                                        }}
-                                        className={styles.actionBtn}
-                                        title="Edit event"
-                                    >
-                                        <Edit2 size={14} />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(event._id)}
-                                        className={`${styles.actionBtn} ${styles.delete}`}
-                                        title="Delete event"
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
+
+                        <div className={styles.card}>
+                            <div className={styles.eventCard}>
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.headerLeft}>
+                                        <h3 className={styles.title}>{formatType(event.type)}</h3>
+                                        <span className={styles.time}>
+                                            {new Date(event.timestamp).toLocaleString('it-IT', {
+                                                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                                            })}
+                                        </span>
+                                    </div>
+                                    <div className={styles.headerRight}>
+                                        {isAIProcessing ? (
+                                            <div className={`${styles.aiBadge} styles.aiAnalyzing`}>
+                                                <RefreshCcw size={10} className="spin" /> AI ANALYZING
+                                            </div>
+                                        ) : results ? (
+                                            <div className={`${styles.aiBadge} styles.aiProcessed`}>
+                                                <Sparkles size={10} /> AI PROCESSED
+                                            </div>
+                                        ) : null}
+
+                                        <div className={styles.actions}>
+                                            <button
+                                                className={styles.iconBtn}
+                                                onClick={() => { setEditingId(event._id); setEditContent(event.content); }}
+                                            >
+                                                <Edit2 size={14} />
+                                            </button>
+                                            <button
+                                                className={`${styles.iconBtn} styles.deleteBtn`}
+                                                onClick={() => handleDelete(event._id)}
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                {editingId === event._id ? (
+                                    <div className={styles.editArea}>
+                                        <textarea
+                                            value={editContent}
+                                            onChange={(e) => setEditContent(e.target.value)}
+                                            className={styles.editTextarea}
+                                            autoFocus
+                                        />
+                                        <div className={styles.editActions}>
+                                            <button onClick={() => setEditingId(null)} className={styles.cancelBtn}>Cancel</button>
+                                            <button onClick={() => handleUpdate(event._id)} className={styles.saveBtn}>Save</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className={styles.description}>{event.content}</p>
+                                )}
+
+                                {eventAttachments.length > 0 && (
+                                    <div className={styles.attachments}>
+                                        {eventAttachments.map(a => (
+                                            <AttachmentLink key={a._id} attachment={a} />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
-                            {editingId === event._id ? (
-                                <div className={styles.editArea}>
-                                    <textarea
-                                        value={editContent}
-                                        onChange={(e) => setEditContent(e.target.value)}
-                                        className={styles.editTextarea}
-                                        autoFocus
-                                    />
-                                    <div className={styles.editActions}>
-                                        <button onClick={() => setEditingId(null)} className={styles.cancelBtn}>
-                                            <X size={14} /> Cancel
-                                        </button>
-                                        <button onClick={() => handleUpdate(event._id)} className={styles.saveBtn}>
-                                            <Save size={14} /> Save
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <p className={styles.text}>{event.content}</p>
-                            )}
-
-                            {eventAttachments.length > 0 && (
-                                <div className={styles.attachments}>
-                                    {eventAttachments.map(a => (
-                                        <AttachmentLink key={a._id} attachment={a} />
-                                    ))}
-                                </div>
-                            )}
-
-                            {event.aiStatus === "processing" && (
-                                <div className={styles.aiResult}>
-                                    <Sparkles size={14} className={styles.spin} /> AI is analyzing...
-                                </div>
-                            )}
-
                             {results && (
-                                <div className={styles.aiCard}>
-                                    <div className={styles.aiHeader}>
-                                        <Sparkles size={14} /> AI Artifacts
-                                    </div>
-
-                                    {results.summary && (
-                                        <div className={styles.aiSection}>
-                                            <h4>Summary</h4>
-                                            <p>{results.summary}</p>
+                                <div className={styles.intelSection}>
+                                    <div className={styles.intelCard}>
+                                        <div className={styles.intelHeader}>
+                                            <Sparkles size={14} /> Executive Summary
                                         </div>
-                                    )}
+                                        <div className={styles.intelContent}>
+                                            <p>{results.summary || "Generating overview of findings..."}</p>
+                                        </div>
 
-                                    {results.actionItems && results.actionItems.length > 0 && (
-                                        <div className={styles.aiSection}>
-                                            <h4>Action Items</h4>
-                                            <ul className={styles.actionList}>
-                                                {results.actionItems.map((item, i) => {
-                                                    const loadingKey = `${event._id}-${i}`;
-                                                    const isLoading = itemLoading === loadingKey;
-                                                    return (
-                                                        <li key={i}>
-                                                            <div className={styles.actionItemContent}>
-                                                                <CheckSquare size={14} /> <span>{item}</span>
-                                                            </div>
-                                                            <button
-                                                                onClick={() => handleActionItemEmail(item, event._id, i)}
-                                                                className={styles.inlineActionBtn}
-                                                                disabled={!!itemLoading}
-                                                                title="Generate email for this item"
-                                                            >
-                                                                {isLoading ? <Loader2 size={12} className="spin" /> : <Mail size={12} />}
-                                                            </button>
+                                        {results.actionItems && results.actionItems.length > 0 && (
+                                            <div style={{ marginTop: 8 }}>
+                                                <h4 style={{ fontSize: '0.75rem', color: 'var(--text-main)', marginBottom: 12, fontWeight: 700 }}>Key Action Items</h4>
+                                                <ul className={styles.actionList}>
+                                                    {results.actionItems.map((item, i) => (
+                                                        <li key={i} className={styles.actionItem}>
+                                                            <div className={styles.checkbox}><CheckSquare size={12} /></div>
+                                                            <span>{item}</span>
                                                         </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        </div>
-                                    )}
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
 
                                     {results.emailDraft && (
                                         <div className={styles.emailDraft}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <h4>Suggested Email</h4>
+                                            <div className={styles.emailHeader}>
+                                                <div className={styles.emailTitle}>
+                                                    <Mail size={16} color="var(--primary)" />
+                                                    <span>Draft Email to Client</span>
+                                                </div>
+                                                <span className={styles.optimizedBadge}>Optimized for Gmail</span>
+                                            </div>
+
+                                            <div className={styles.draftBox}>
+                                                <span className={styles.draftSubject}>SUBJECT: {results.emailDraft.subject}</span>
+                                                <p>{results.emailDraft.body}</p>
+                                            </div>
+
+                                            <div className={styles.emailActions}>
+                                                <button className={styles.secondaryBtn} onClick={() => alert("Edit mode coming soon")}>
+                                                    <Edit2 size={14} />
+                                                </button>
                                                 <button
-                                                    onClick={() => results.emailDraft && handleQueueEmail(results.emailDraft, event._id)}
-                                                    className={`${styles.queueButton} ${event.emailSent ? styles.sent : ""}`}
+                                                    className={`${styles.emailBtn} ${styles.sendBtn}`}
                                                     disabled={isSending === event._id || event.emailSent}
+                                                    onClick={() => results.emailDraft && handleQueueEmail(results.emailDraft, event._id)}
                                                 >
-                                                    {isSending === event._id ? (
-                                                        <><Loader2 size={14} className="spin" /> Sending...</>
-                                                    ) : event.emailSent ? (
-                                                        <>Draft Sent <CheckSquare size={14} /></>
-                                                    ) : (
-                                                        <>Send Draft <ChevronRight size={14} /></>
-                                                    )}
+                                                    {event.emailSent ? "FINALIZE ALL" : "SEND TO MY WORK EMAIL"}
                                                 </button>
                                             </div>
-                                            <p className={styles.draftSubject}>Subject: {results.emailDraft.subject}</p>
-                                            <p className={styles.draftBody}>{results.emailDraft.body}</p>
                                         </div>
                                     )}
                                 </div>
@@ -285,25 +285,20 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
 function AttachmentLink({ attachment }: { attachment: Attachment }) {
     const url = useQuery(api.attachments.getUrl, { storageId: attachment.storageId });
 
-    if (!url) {
-        return (
-            <span className={`${styles.attachmentLink} ${styles.disabled}`}>
-                <Paperclip size={14} />
-                {attachment.fileName}
-            </span>
-        );
-    }
-
     return (
         <a
-            href={url}
+            href={url || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.attachmentLink}
+            className={styles.attachmentItem}
             download={attachment.fileName}
+            onClick={(e) => !url && e.preventDefault()}
         >
-            <Paperclip size={14} />
-            {attachment.fileName}
+            <div className={styles.fileIcon}>
+                <FileIcon size={16} />
+            </div>
+            <span>{attachment.fileName}</span>
+            <span className={styles.viewPreview}>View Preview</span>
         </a>
     );
 }

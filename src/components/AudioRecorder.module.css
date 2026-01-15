@@ -1,29 +1,31 @@
 .recordButton {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
+    transition: var(--transition);
 }
 
 .recordButton:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
     color: var(--primary);
+    border-color: var(--border-bright);
 }
 
 .stopButton {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     background: rgba(239, 68, 68, 0.1);
     color: var(--error);
     border: 1px solid rgba(239, 68, 68, 0.2);

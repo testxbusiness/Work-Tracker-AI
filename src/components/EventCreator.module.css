@@ -1,77 +1,144 @@
 .container {
-    padding: 16px;
+    padding: 24px;
     border-radius: var(--radius-lg);
-    margin-bottom: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 1025px) {
+    .container {
+        margin-left: 76px;
+        /* Align with timeline cards (44px icon + 32px gap) */
+    }
 }
 
 .typeSelector {
     display: flex;
-    gap: 8px;
+    gap: 12px;
 }
 
 .typeSelector button {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
     font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--text-muted);
+    font-weight: 600;
+    color: var(--text-dim);
     border: 1px solid transparent;
+    transition: var(--transition);
 }
 
 .typeSelector button:hover {
     background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
 }
 
 .active {
-    background: rgba(59, 130, 246, 0.1) !important;
+    background: rgba(79, 70, 229, 0.1) !important;
     color: var(--primary) !important;
-    border-color: rgba(59, 130, 246, 0.2) !important;
+    border-color: rgba(79, 70, 229, 0.2) !important;
 }
 
 .inputWrapper {
     display: flex;
-    gap: 12px;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .inputWrapper textarea {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 12px;
+    padding: 16px;
     color: var(--text-main);
     font-family: inherit;
     font-size: 0.9375rem;
+    line-height: 1.6;
     resize: none;
-    min-height: 44px;
+    min-height: 100px;
+    transition: var(--transition);
 }
 
 .inputWrapper textarea:focus {
     outline: none;
     border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.actionsBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actionsGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .sendButton {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background: var(--primary);
-    color: white;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.sendButton:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
 .sendButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    background: var(--text-muted);
+    background: var(--text-dim);
+}
+
+.attachmentList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.attachmentBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.removeBtn {
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.removeBtn:hover {
+    background: rgba(79, 70, 229, 0.2);
 }

@@ -3,14 +3,20 @@
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import styles from "./page.module.css";
-import { Plus, Clock, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Plus, Clock, AlertCircle, CheckCircle2, MoreHorizontal, FileText, Calendar, User, MousePointer2, PlusCircle, UploadCloud } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/Badge";
 
 export default function Dashboard() {
   const matters = useQuery(api.matters.list);
 
   if (matters === undefined) {
-    return <div>Loading dashboard...</div>;
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifySelf: 'center', height: '100%', gap: 12 }}>
+        <Clock className="spin" size={20} />
+        <span>Loading system overview...</span>
+      </div>
+    );
   }
 
   const activeMatters = matters.filter(m => m.status === "active");
@@ -19,61 +25,98 @@ export default function Dashboard() {
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
-        <div>
-          <h1>Welcome back</h1>
-          <p className="text-muted">Here's what's happening today.</p>
+        <div className={styles.titleSection}>
+          <h1>System Overview</h1>
+          <p className={styles.subtitle}>Recent legal management metrics and active cases.</p>
         </div>
-        <Link href="/matters/new" className={styles.addButton}>
-          <Plus size={20} />
-          New Matter
-        </Link>
       </header>
 
       <div className={styles.statsGrid}>
-        <div className="glass" style={{ padding: '24px', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', marginBottom: '8px' }}>
-            <Clock size={20} />
-            <span style={{ fontWeight: 600 }}>Active</span>
+        <div className={`${styles.statsCard} glass`}>
+          <div className={styles.statsHeader}>
+            <span className={styles.statsTitle}>Active Cases Today</span>
+            <div className={styles.statsIcon} style={{ background: 'rgba(79, 70, 229, 0.1)', color: 'var(--primary)' }}>
+              <MousePointer2 size={18} />
+            </div>
           </div>
-          <p style={{ fontSize: '2rem', fontWeight: 700 }}>{activeMatters.length}</p>
+          <p className={styles.statsValue}>{activeMatters.length}</p>
         </div>
-        <div className="glass" style={{ padding: '24px', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--warning)', marginBottom: '8px' }}>
-            <AlertCircle size={20} />
-            <span style={{ fontWeight: 600 }}>On Hold</span>
+
+        <div className={`${styles.statsCard} glass`}>
+          <div className={styles.statsHeader}>
+            <span className={styles.statsTitle}>Stalled Cases</span>
+            <div className={styles.statsIcon} style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)' }}>
+              <AlertCircle size={18} />
+            </div>
           </div>
-          <p style={{ fontSize: '2rem', fontWeight: 700 }}>{onHoldMatters.length}</p>
+          <p className={styles.statsValue}>{onHoldMatters.length}</p>
         </div>
-        <div className="glass" style={{ padding: '24px', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--success)', marginBottom: '8px' }}>
-            <CheckCircle2 size={20} />
-            <span style={{ fontWeight: 600 }}>Recent</span>
+
+        <div className={`${styles.statsCard} glass`}>
+          <div className={styles.statsHeader}>
+            <span className={styles.statsTitle}>Recently Updated</span>
+            <div className={styles.statsIcon} style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)' }}>
+              <Clock size={18} />
+            </div>
           </div>
-          <p style={{ fontSize: '2rem', fontWeight: 700 }}>{matters.length}</p>
+          <p className={styles.statsValue}>{matters.slice(0, 3).length}</p>
         </div>
       </div>
 
-      <section className={styles.section}>
-        <h2>Recent Matters</h2>
-        <div className={styles.matterList}>
-          {matters.slice(0, 5).map(matter => (
-            <Link key={matter._id} href={`/matters/${matter._id}`} className={`${styles.matterCard} glass glass-hover`}>
-              <div style={{ flex: 1 }}>
-                <h3>{matter.title}</h3>
-                <p className="text-muted">{matter.type} • {matter.counterparty || 'No counterparty'}</p>
+      <div className={styles.contentGrid}>
+        <section className={styles.mainSection}>
+          <div className={styles.sectionHeader}>
+            <h3>Recent Activities</h3>
+            <Link href="/matters" className={styles.viewAll}>View All</Link>
+          </div>
+
+          <div className={styles.activityList}>
+            {matters.length > 0 ? matters.slice(0, 4).map(matter => (
+              <Link key={matter._id} href={`/matters/${matter._id}`} className={styles.activityItem}>
+                <div className={styles.activityLabel}>
+                  <FileText size={16} />
+                  <span>{matter.title}</span>
+                </div>
+                <div className={styles.caseId}>LD-{matter._id.slice(0, 4).toUpperCase()}</div>
+                <div className={styles.member}>
+                  <div className={styles.avatar} />
+                  <span>Legal Team</span>
+                </div>
+                <div>
+                  <Badge variant={matter.status === 'active' ? 'success' : 'warning'}>
+                    {matter.status.toUpperCase()}
+                  </Badge>
+                </div>
+              </Link>
+            )) : (
+              <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.875rem' }}>
+                No recent activity recorded.
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <span className={`${styles.badge} ${styles[matter.priority]}`}>{matter.priority}</span>
-              </div>
-            </Link>
-          ))}
-          {matters.length === 0 && (
-            <div className="glass" style={{ padding: '40px', textAlign: 'center', borderRadius: 'var(--radius-md)', color: 'var(--text-muted)' }}>
-              No matters found. Create one to get started.
+            )}
+          </div>
+        </section>
+
+        <aside className={styles.sideBar}>
+          <div className={`${styles.sideCard} glass`}>
+            <h3>Quick Actions</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <Link href="/matters/new" className={styles.actionButton}>
+                <PlusCircle size={18} />
+                Start New Case
+              </Link>
+              <Link href="/notes" className={styles.secondaryAction}>
+                <FileText size={18} />
+                Log New Action
+              </Link>
+              <Link href="/dashboard" className={styles.secondaryAction}>
+                <UploadCloud size={18} />
+                Upload File
+              </Link>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+
+        </aside>
+      </div>
     </div>
   );
 }

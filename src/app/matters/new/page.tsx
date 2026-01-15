@@ -37,7 +37,7 @@ export default function NewMatter() {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <Link href="/" className={styles.backLink}>
+                <Link href="/dashboard" className={styles.backLink}>
                     <ChevronLeft size={20} />
                     Back to Dashboard
                 </Link>
