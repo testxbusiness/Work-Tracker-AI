@@ -8,7 +8,7 @@ export const AI_CONFIG = {
 };
 
 export const GMAIL_CONFIG = {
-    clientId: process.env.GMAIL_CLIENT_ID,
-    clientSecret: process.env.GMAIL_CLIENT_SECRET,
-    redirectUri: (process.env.SITE_URL || "http://localhost:3000") + "/oauth/callback",
+    clientId: process.env.GOOGLE_CLIENT_ID || process.env.GMAIL_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || process.env.GMAIL_CLIENT_SECRET,
+    redirectUri: (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "") + "/oauth/callback",
 };
