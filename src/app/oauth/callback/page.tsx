@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useAction, useConvexAuth } from "convex/react";
 import { api } from "convex/_generated/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/components/Loader";
 
-export default function OAuthCallback() {
+function CallbackContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isAuthenticated, isLoading } = useConvexAuth();
@@ -46,5 +46,25 @@ export default function OAuthCallback() {
             <Loader size={40} />
             <p>{status}</p>
         </div>
+    );
+}
+
+export default function OAuthCallback() {
+    return (
+        <Suspense fallback={
+            <div style={{
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '20px'
+            }}>
+                <Loader size={40} />
+                <p>Loading callback handler...</p>
+            </div>
+        }>
+            <CallbackContent />
+        </Suspense>
     );
 }
