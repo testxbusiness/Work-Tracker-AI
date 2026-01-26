@@ -12,9 +12,17 @@ export default function Dashboard() {
 
   if (matters === undefined) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifySelf: 'center', height: '100%', gap: 12 }}>
-        <Clock className="spin" size={20} />
-        <span>Loading system overview...</span>
+      <div className={styles.loadingState}>
+        <div className={styles.loadingHeader}>
+          <Clock className="spin" size={18} />
+          <span>Loading system overview...</span>
+        </div>
+        <div className={styles.loadingGrid}>
+          <div className={styles.loadingCard} />
+          <div className={styles.loadingCard} />
+          <div className={styles.loadingCard} />
+        </div>
+        <div className={styles.loadingPanel} />
       </div>
     );
   }
@@ -32,7 +40,7 @@ export default function Dashboard() {
       </header>
 
       <div className={styles.statsGrid}>
-        <div className={`${styles.statsCard} glass`}>
+        <div className={`${styles.statsCard} ${styles.statsPrimary} glass`}>
           <div className={styles.statsHeader}>
             <span className={styles.statsTitle}>Active Cases Today</span>
             <div className={styles.statsIcon} style={{ background: 'rgba(79, 70, 229, 0.1)', color: 'var(--primary)' }}>
@@ -40,9 +48,13 @@ export default function Dashboard() {
             </div>
           </div>
           <p className={styles.statsValue}>{activeMatters.length}</p>
+          <div className={styles.statsMeta}>
+            <span>{matters.length} total matters</span>
+            <span className={styles.statsPulse}>Live</span>
+          </div>
         </div>
 
-        <div className={`${styles.statsCard} glass`}>
+        <div className={`${styles.statsCard} ${styles.statsWarning} glass`}>
           <div className={styles.statsHeader}>
             <span className={styles.statsTitle}>Stalled Cases</span>
             <div className={styles.statsIcon} style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)' }}>
@@ -50,9 +62,13 @@ export default function Dashboard() {
             </div>
           </div>
           <p className={styles.statsValue}>{onHoldMatters.length}</p>
+          <div className={styles.statsMeta}>
+            <span>Needs review</span>
+            <span>{onHoldMatters.length === 0 ? "All clear" : "Escalate"}</span>
+          </div>
         </div>
 
-        <div className={`${styles.statsCard} glass`}>
+        <div className={`${styles.statsCard} ${styles.statsSuccess} glass`}>
           <div className={styles.statsHeader}>
             <span className={styles.statsTitle}>Recently Updated</span>
             <div className={styles.statsIcon} style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)' }}>
@@ -60,6 +76,10 @@ export default function Dashboard() {
             </div>
           </div>
           <p className={styles.statsValue}>{matters.slice(0, 3).length}</p>
+          <div className={styles.statsMeta}>
+            <span>Last 3 matters</span>
+            <span>Updated just now</span>
+          </div>
         </div>
       </div>
 
@@ -89,8 +109,14 @@ export default function Dashboard() {
                 </div>
               </Link>
             )) : (
-              <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.875rem' }}>
-                No recent activity recorded.
+              <div className={styles.emptyState}>
+                <div className={styles.emptyIcon}>
+                  <FileText size={18} />
+                </div>
+                <div>
+                  <h4>No recent activity</h4>
+                  <p>Start a new matter or log a note to populate this feed.</p>
+                </div>
               </div>
             )}
           </div>

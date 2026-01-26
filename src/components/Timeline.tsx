@@ -69,9 +69,29 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
 
     if (events === undefined || attachments === undefined) {
         return (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 20 }}>
-                <RefreshCcw className="spin" size={16} />
-                <span style={{ fontSize: '0.875rem', color: 'var(--text-dim)' }}>Syncing events...</span>
+            <div className={styles.loadingState}>
+                <div className={styles.loadingHeader}>
+                    <RefreshCcw className="spin" size={16} />
+                    <span>Syncing events...</span>
+                </div>
+                <div className={styles.skeletonList}>
+                    <div className={styles.skeletonItem} />
+                    <div className={styles.skeletonItem} />
+                </div>
+            </div>
+        );
+    }
+
+    if (events.length === 0) {
+        return (
+            <div className={styles.emptyState}>
+                <div className={styles.emptyIcon}>
+                    <MessageSquare size={22} />
+                </div>
+                <div>
+                    <h3>No events yet</h3>
+                    <p>Log a note, call, or meeting to start building this case timeline.</p>
+                </div>
             </div>
         );
     }
@@ -166,11 +186,11 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
                                     </div>
                                     <div className={styles.headerRight}>
                                         {isAIProcessing ? (
-                                            <div className={`${styles.aiBadge} styles.aiAnalyzing`}>
+                                            <div className={`${styles.aiBadge} ${styles.aiAnalyzing}`}>
                                                 <RefreshCcw size={10} className="spin" /> AI ANALYZING
                                             </div>
                                         ) : results ? (
-                                            <div className={`${styles.aiBadge} styles.aiProcessed`}>
+                                            <div className={`${styles.aiBadge} ${styles.aiProcessed}`}>
                                                 <Sparkles size={10} /> AI PROCESSED
                                             </div>
                                         ) : null}
@@ -183,7 +203,7 @@ export function Timeline({ matterId }: { matterId: Id<"matters"> }) {
                                                 <Edit2 size={14} />
                                             </button>
                                             <button
-                                                className={`${styles.iconBtn} styles.deleteBtn`}
+                                                className={`${styles.iconBtn} ${styles.deleteBtn}`}
                                                 onClick={() => handleDelete(event._id)}
                                             >
                                                 <Trash2 size={14} />
@@ -294,10 +314,18 @@ function AttachmentLink({ attachment }: { attachment: Attachment }) {
             download={attachment.fileName}
             onClick={(e) => !url && e.preventDefault()}
         >
-            <div className={styles.fileIcon}>
-                <FileIcon size={16} />
-            </div>
-            <span>{attachment.fileName}</span>
+            {attachment.fileType.startsWith("image/") && url ? (
+                <div
+                    className={styles.attachmentPreview}
+                    style={{ backgroundImage: `url(${url})` }}
+                    aria-hidden
+                />
+            ) : (
+                <div className={styles.fileIcon}>
+                    <FileIcon size={16} />
+                </div>
+            )}
+            <span className={styles.attachmentName}>{attachment.fileName}</span>
             <span className={styles.viewPreview}>View Preview</span>
         </a>
     );

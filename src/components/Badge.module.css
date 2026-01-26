@@ -8,6 +8,10 @@
     border: 1px solid var(--border);
 }
 
+.default {
+    color: var(--text-muted);
+}
+
 .high {
     background: rgba(239, 68, 68, 0.1);
     color: #f87171;
@@ -30,4 +34,33 @@
     background: rgba(16, 185, 129, 0.1);
     color: #34d399;
     border-color: rgba(16, 185, 129, 0.2);
+}
+
+.success,
+.sent,
+.active {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.warning,
+.queued,
+.on-hold {
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.error,
+.failed {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.closed {
+    background: rgba(148, 163, 184, 0.12);
+    color: #cbd5f5;
+    border-color: rgba(148, 163, 184, 0.3);
 }

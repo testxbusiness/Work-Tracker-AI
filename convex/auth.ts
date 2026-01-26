@@ -84,9 +84,10 @@ export const storeTokens = internalMutation({
             .unique();
 
         if (settings) {
+            const refreshToken = args.refreshToken ?? settings.googleRefreshToken ?? null;
             await ctx.db.patch(settings._id, {
                 googleAccessToken: args.accessToken,
-                googleRefreshToken: args.refreshToken || (settings as any).googleRefreshToken,
+                googleRefreshToken: refreshToken,
                 googleTokenExpiresAt: Date.now() + args.expiresIn * 1000,
             });
         } else {

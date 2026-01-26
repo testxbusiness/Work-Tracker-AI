@@ -7,6 +7,16 @@ import { Mail, CheckCircle2, Clock, AlertCircle, Send, Loader2 } from "lucide-re
 import { Badge } from "@/components/Badge";
 import { useState } from "react";
 
+type OutboxEmail = {
+    _id: string;
+    status: "sent" | "queued" | "failed";
+    to: string;
+    subject: string;
+    body: string;
+    sentAt?: number | null;
+    error?: string | null;
+};
+
 export default function Outbox() {
     const emails = useQuery(api.outbox.list);
     const sendEmail = useAction(api.gmail.sendEmail);
@@ -14,7 +24,7 @@ export default function Outbox() {
 
     if (emails === undefined) return <div>Loading outbox...</div>;
 
-    const handleRetry = async (email: any) => {
+    const handleRetry = async (email: OutboxEmail) => {
         setRetryingIds(prev => new Set(prev).add(email._id));
         try {
             await sendEmail({

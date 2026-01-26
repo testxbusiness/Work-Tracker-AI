@@ -69,7 +69,7 @@ export default function MattersPage() {
 
                 {filteredMatters.length === 0 && (search !== "") && (
                     <div className={styles.empty}>
-                        No matters found matching "{search}"
+                        No matters found matching &quot;{search}&quot;
                     </div>
                 )}
 

@@ -66,7 +66,7 @@ export default function LandingPage() {
           </div>
           <h3>From notes to next steps.</h3>
           <p>
-            Non perdere mai il filo. La nostra AI analizza le tue note vocali o testuali e le trasforma immediatamente in piani d'azione concreti.
+            Non perdere mai il filo. La nostra AI analizza le tue note vocali o testuali e le trasforma immediatamente in piani d&apos;azione concreti.
           </p>
         </div>
 

@@ -27,7 +27,7 @@ export function Sidebar({ isOpen, onToggle }: { isOpen?: boolean, onToggle?: () 
     ];
 
     return (
-        <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
+        <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`}>
             <div className={styles.logo}>
                 <div className={styles.logoIcon}>
                     <img src="/logo.png" alt="Logo" width={32} height={32} />
@@ -47,6 +47,7 @@ export function Sidebar({ isOpen, onToggle }: { isOpen?: boolean, onToggle?: () 
                                     key={item.href}
                                     href={item.href}
                                     className={`${styles.navLink} ${isActive ? styles.active : ""}`}
+                                    aria-current={isActive ? "page" : undefined}
                                     onClick={onToggle}
                                 >
                                     <Icon size={18} />
@@ -58,11 +59,12 @@ export function Sidebar({ isOpen, onToggle }: { isOpen?: boolean, onToggle?: () 
                 ))}
 
                 <div className={styles.navSection}>System</div>
-                <Link
-                    href="/settings"
-                    className={`${styles.navLink} ${pathname === "/settings" ? styles.active : ""}`}
-                    onClick={onToggle}
-                >
+            <Link
+                href="/settings"
+                className={`${styles.navLink} ${pathname === "/settings" ? styles.active : ""}`}
+                aria-current={pathname === "/settings" ? "page" : undefined}
+                onClick={onToggle}
+            >
                     <Settings size={18} />
                     Settings
                 </Link>

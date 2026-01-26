@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { useAction, useConvexAuth } from "convex/react";
 import { api } from "convex/_generated/api";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,16 +12,16 @@ function CallbackContent() {
     const { isAuthenticated, isLoading } = useConvexAuth();
     const handleCallback = useAction(api.auth.handleGoogleCallback);
     const [status, setStatus] = useState("Processing authorization...");
-    const [processed, setProcessed] = useState(false);
+    const processedRef = useRef(false);
 
     useEffect(() => {
-        if (processed || isLoading || !isAuthenticated) return;
+        if (processedRef.current || isLoading || !isAuthenticated) return;
 
         const code = searchParams.get("code");
         const state = searchParams.get("state");
 
         if (code && state) {
-            setProcessed(true);
+            processedRef.current = true;
             handleCallback({ code, state })
                 .then(() => {
                     setStatus("Successfully connected! Redirecting...");
@@ -32,7 +32,7 @@ function CallbackContent() {
                     setStatus("Connection failed. Please try again.");
                 });
         }
-    }, [searchParams, handleCallback, router, isAuthenticated, isLoading, processed]);
+    }, [searchParams, handleCallback, router, isAuthenticated, isLoading]);
 
     return (
         <div style={{

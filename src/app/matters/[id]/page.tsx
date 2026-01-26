@@ -9,11 +9,12 @@ import { EventCreator } from "@/components/EventCreator";
 import { Badge } from "@/components/Badge";
 import { Trash2, Share2, Download, Folder, ChevronRight, FileText, Info, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { Id } from "convex/_generated/dataModel";
 
 export default function MatterDetails() {
     const params = useParams();
     const router = useRouter();
-    const matterId = params.id as any;
+    const matterId = params.id as Id<"matters">;
     const matter = useQuery(api.matters.get, { id: matterId });
     const removeMatter = useMutation(api.matters.remove);
 
@@ -61,13 +62,18 @@ export default function MatterDetails() {
                     </div>
                 </div>
                 <div className={styles.headerActions}>
-                    <button className={styles.actionBtn} title="Share Case">
+                    <button className={styles.actionBtn} title="Share Case" aria-label="Share case">
                         <Share2 size={18} />
                     </button>
-                    <button className={styles.actionBtn} title="Export Analysis">
+                    <button className={styles.actionBtn} title="Export Analysis" aria-label="Export analysis">
                         <Download size={18} />
                     </button>
-                    <button onClick={handleDelete} className={`${styles.actionBtn} styles.deleteBtn`} title="Archive/Delete Dossier">
+                    <button
+                        onClick={handleDelete}
+                        className={`${styles.actionBtn} ${styles.deleteBtn}`}
+                        title="Archive/Delete Dossier"
+                        aria-label="Archive or delete dossier"
+                    >
                         <Trash2 size={18} />
                     </button>
                 </div>

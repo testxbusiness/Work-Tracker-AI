@@ -36,7 +36,7 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: var(--bg-sidebar);
+    background: var(--bg-elev-2);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -64,11 +64,13 @@
     border-radius: var(--radius-lg);
     padding: 24px;
     transition: var(--transition);
+    position: relative;
 }
 
 .eventCard:hover {
     border-color: var(--border-bright);
     background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.25);
 }
 
 .cardHeader {
@@ -153,6 +155,7 @@
     color: var(--text-main);
     text-decoration: none;
     transition: var(--transition);
+    min-width: 220px;
 }
 
 .attachmentItem:hover {
@@ -162,6 +165,22 @@
 
 .fileIcon {
     color: var(--error);
+}
+
+.attachmentPreview {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.attachmentName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .viewPreview {
@@ -329,23 +348,15 @@
 }
 
 .actions {
-    position: absolute;
-    right: 24px;
-    top: 24px;
     display: flex;
     gap: 8px;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.eventCard:hover .actions {
     opacity: 1;
 }
 
 .iconBtn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -363,6 +374,78 @@
     background: rgba(239, 68, 68, 0.1);
 }
 
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 0;
+}
+
+.loadingHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+}
+
+.skeletonList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skeletonItem {
+    height: 110px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: linear-gradient(110deg, rgba(255, 255, 255, 0.03) 8%, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0.03) 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+}
+
+.emptyState {
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-bright);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-muted);
+}
+
+.emptyState h3 {
+    color: var(--text-main);
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.emptyState p {
+    font-size: 0.875rem;
+}
+
+.emptyIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--accent-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
 @media (max-width: 900px) {
     .intelSection {
         grid-template-columns: 1fr;
@@ -370,5 +453,9 @@
 
     .emailDraft {
         grid-column: span 1;
+    }
+
+    .attachmentItem {
+        min-width: 100%;
     }
 }

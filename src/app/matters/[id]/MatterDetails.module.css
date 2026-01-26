@@ -4,33 +4,67 @@
     gap: 32px;
 }
 
-.header {
+.breadcrumbs {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
 }
 
-.headerTop {
+.breadcrumbActive {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.pageHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.deleteButton {
+.caseTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-right: 12px;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.actionBtn {
     width: 44px;
     height: 44px;
     border-radius: var(--radius-md);
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--error);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: var(--transition);
 }
 
-.deleteButton:hover {
-    background: var(--error);
-    color: white;
+.actionBtn:hover {
+    color: var(--text-main);
+    border-color: var(--border-bright);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.deleteBtn {
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--error);
+}
+
+.deleteBtn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fff;
 }
 
 .content {
@@ -40,15 +74,107 @@
     align-items: start;
 }
 
-.timelineSection {
-    display: flex;
-    flex-direction: column;
-}
-
 .sidebar {
     display: flex;
     flex-direction: column;
     gap: 24px;
+}
+
+.caseBanner {
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bannerIcon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(79, 70, 229, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bannerInfo h2 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.bannerInfo p {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.metaGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.metaRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.8125rem;
+}
+
+.metaLabel {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.metaValue {
+    color: var(--text-main);
+    font-weight: 600;
+    font-family: var(--font-geist-mono), "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+}
+
+.sidebarSection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebarSection:first-child {
+    border-top: none;
+}
+
+.sidebarSection h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+}
+
+.mainSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.mainHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mainHeader h2 {
+    font-size: 1.1rem;
 }
 
 @media (max-width: 1024px) {
@@ -58,5 +184,15 @@
 
     .sidebar {
         order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .pageHeader {
+        align-items: flex-start;
+    }
+
+    .caseTitle {
+        font-size: 1.5rem;
     }
 }

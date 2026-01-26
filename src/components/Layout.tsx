@@ -19,11 +19,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className={styles.container}>
             <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(false)} />
+            <button
+                className={`${styles.overlay} ${sidebarOpen ? styles.overlayOpen : ""}`}
+                onClick={() => setSidebarOpen(false)}
+                aria-label="Close navigation"
+                type="button"
+            />
 
             <div className={styles.mainWrapper}>
                 <header className={styles.topBar}>
                     <div className={styles.mobileHeader}>
-                        <button className={styles.iconBtn} onClick={() => setSidebarOpen(!sidebarOpen)}>
+                        <button
+                            className={styles.iconBtn}
+                            onClick={() => setSidebarOpen(!sidebarOpen)}
+                            aria-label="Open navigation"
+                        >
                             <Menu size={20} />
                         </button>
                         <div className={styles.logo} style={{ marginBottom: 0, padding: 0 }}>

@@ -44,7 +44,7 @@
 .field select,
 .field textarea {
     padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-elev-1);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     color: var(--text-main);
@@ -57,8 +57,8 @@
 .field select:focus,
 .field textarea:focus {
     outline: none;
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
 }
 
 .row {

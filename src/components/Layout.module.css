@@ -11,6 +11,7 @@
     top: 0;
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border);
+    box-shadow: 12px 0 30px rgba(2, 6, 23, 0.4);
     display: flex;
     flex-direction: column;
     padding: 32px 20px;
@@ -42,7 +43,7 @@
 }
 
 .logo span {
-    background: linear-gradient(135deg, var(--text-main) 0%, var(--accent) 100%);
+    background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-1) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -82,8 +83,8 @@
     color: var(--text-main);
 }
 
-.navLink.active {
-    background: rgba(79, 70, 229, 0.1);
+.active {
+    background: rgba(79, 70, 229, 0.12);
     color: var(--primary);
 }
 
@@ -106,6 +107,7 @@
     top: 0;
     z-index: 90;
     backdrop-filter: blur(16px);
+    box-shadow: 0 12px 20px rgba(2, 6, 23, 0.25);
 }
 
 .searchBar {
@@ -129,7 +131,8 @@
 
 .iconBtn {
     color: var(--text-muted);
-    padding: 8px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
@@ -160,12 +163,28 @@
     display: none;
 }
 
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 80;
+}
+
+.overlayOpen {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 @media (max-width: 1024px) {
     .sidebar {
         transform: translateX(-100%);
     }
 
-    .sidebar.open {
+    .sidebarOpen {
         transform: translateX(0);
     }
 
@@ -185,5 +204,9 @@
         display: flex;
         align-items: center;
         gap: 16px;
+    }
+
+    .main {
+        padding: 28px 20px 40px;
     }
 }

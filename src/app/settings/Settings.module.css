@@ -53,11 +53,17 @@
 
 .field input {
     padding: 12px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-elev-1);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     color: var(--text-main);
     font-family: inherit;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
 }
 
 .toggleField {
@@ -65,6 +71,12 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 16px;
+}
+
+.toggleField input[type="checkbox"] {
+    width: 42px;
+    height: 24px;
+    accent-color: var(--primary);
 }
 
 .toggleField label {
