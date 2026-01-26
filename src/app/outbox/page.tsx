@@ -10,7 +10,7 @@ import { Id } from "convex/_generated/dataModel";
 
 type OutboxEmail = {
     _id: Id<"outbox">;
-    status: "sent" | "queued" | "failed";
+    status: "sent" | "queued" | "failed" | string;
     to: string;
     subject: string;
     body: string;
