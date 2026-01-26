@@ -6,9 +6,10 @@ import styles from "./Outbox.module.css";
 import { Mail, CheckCircle2, Clock, AlertCircle, Send, Loader2 } from "lucide-react";
 import { Badge } from "@/components/Badge";
 import { useState } from "react";
+import { Id } from "convex/_generated/dataModel";
 
 type OutboxEmail = {
-    _id: string;
+    _id: Id<"outbox">;
     status: "sent" | "queued" | "failed";
     to: string;
     subject: string;
